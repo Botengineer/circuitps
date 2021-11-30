@@ -1,0 +1,114 @@
+const int ENA = 6;
+const int IN1 = 7;
+const int IN2 = 8;
+const int IN3 = 10;
+const int IN4 = 5;
+const int ENB = 12;
+int tiempo=0;
+void setup ()
+{
+ 
+ pinMode (ENA, OUTPUT);
+ Serial.begin(9600);
+ pinMode (ENB, OUTPUT);
+ pinMode (IN1, OUTPUT);
+ pinMode (IN2, OUTPUT);
+ pinMode (IN3, OUTPUT);
+ pinMode (IN4, OUTPUT);
+}
+void Adelante ()
+{
+ //Direccion motor A
+ digitalWrite (IN1, HIGH);
+ digitalWrite (IN2, LOW);
+ analogWrite (ENA, 255); //Velocidad motor A
+ //Direccion motor B
+ digitalWrite (IN3, HIGH);
+ digitalWrite (IN4, LOW);
+ analogWrite (ENB, 255); //Velocidad motor B
+}
+void Atras ()
+{
+ //Direccion motor A
+ digitalWrite (IN1, LOW);
+ digitalWrite (IN2, HIGH);
+ analogWrite (ENA, 128); //Velocidad motor A
+ //Direccion motor B
+ digitalWrite (IN3, LOW);
+ digitalWrite (IN4, HIGH);
+ analogWrite (ENB, 128); //Velocidad motor B
+}
+void Derecha ()
+{
+ //Direccion motor A
+ digitalWrite (IN1, HIGH);
+ digitalWrite (IN2, LOW);
+ analogWrite (ENA, 200); //Velocidad motor A
+ //Direccion motor B
+ digitalWrite (IN3, LOW);
+ digitalWrite (IN4, HIGH);
+ analogWrite (ENB, 100); //Velocidad motor A
+}
+
+void Izquierda ()
+{
+ //Direccion motor A
+ digitalWrite (IN1, LOW);
+ digitalWrite (IN2, HIGH);
+ analogWrite (ENA, 50); //Velocidad motor A
+ //Direccion motor B
+ digitalWrite (IN3, HIGH);
+ digitalWrite (IN4, LOW);
+ analogWrite (ENB, 150); //Velocidad motor A
+}
+void Parar ()
+{
+ //Direccion motor A
+ digitalWrite (IN1, LOW);
+ digitalWrite (IN2, LOW);
+ analogWrite (ENA, 0); //Velocidad motor A
+ //Direccion motor B
+ digitalWrite (IN3, LOW);
+ digitalWrite (IN4, LOW);
+ analogWrite (ENB, 0); //Velocidad motor A
+}
+void loop() {
+
+  if (Serial.available()) {
+     char dato= Serial.read();
+     if(dato=='a')
+     {
+       Adelante ();
+        tiempo=0;
+     }
+     else if(dato=='r')
+     { 
+        Atras ();
+        tiempo=0;
+     }
+     else if(dato=='d')
+     { 
+        Derecha ();
+        tiempo=0;
+     }
+     else if(dato=='i')
+     { 
+        Derecha ();
+        tiempo=0;
+     }   
+   
+  }
+
+  if(tiempo<200) 
+  {    
+    tiempo=tiempo+1;
+  }
+  else  
+  {
+    Parar ();
+  }
+  
+  
+  delay(1); 
+  
+}
